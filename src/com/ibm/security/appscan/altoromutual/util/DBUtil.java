@@ -215,9 +215,13 @@ public class DBUtil {
 		
 		Connection connection = getConnection();
 		Statement statement = connection.createStatement();
-		
-		ResultSet resultSet =statement.executeQuery("SELECT COUNT(*)FROM PEOPLE WHERE USER_ID = '"+ user +"' AND PASSWORD='" + password + "'"); /* BAD - user input should always be sanitized */
-		
+
+		//ResultSet resultSet =statement.executeQuery("SELECT COUNT(*)FROM PEOPLE WHERE USER_ID = '"+ user +"' AND PASSWORD='" + password + "'"); /* BAD - user input should always be sanitized */
+		PreparedSet prep = connection.prepareStatement("SELECT COUNT(*)FROM PEOPLE WHERE USER_ID = ? AND PASSWORD=?");
+		prep.setString(1,user);
+		prep.setString(1,password);
+		ResultSet resultSet = preparedStatement.executeQuery();
+
 		if (resultSet.next()){
 			
 				if (resultSet.getInt(1) > 0)
