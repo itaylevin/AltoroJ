@@ -18,6 +18,7 @@ IBM AltoroJ
 
 package com.ibm.security.appscan.altoromutual.util;
 
+import io.github.pixee.security.BoundedLineReader;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -272,7 +273,7 @@ public class ServletUtil {
 			propertyReader = new BufferedReader(new InputStreamReader(propertyFileStream));
 			String line = null;
 			int counter = 0;
-			while ((line=propertyReader.readLine()) != null && counter < 99){
+			while ((line=BoundedLineReader.readLine(propertyReader, 5_000_000)) != null && counter < 99){
 				counter++;
 				int equalsIndex = line.indexOf("=");
 				
@@ -322,7 +323,7 @@ public class ServletUtil {
 			logWriter = new PrintWriter(logFile);
 			String line = null;
 			int counter = 0;
-			while ((line=logReader.readLine()) != null && counter < 99){
+			while ((line=BoundedLineReader.readLine(logReader, 5_000_000)) != null && counter < 99){
 				counter++;
 				logWriter.println(line);
 			}
